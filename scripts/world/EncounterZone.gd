@@ -6,10 +6,12 @@ extends Area2D
 @export var encounter_chance_per_tick: float = 0.22
 @export var tick_interval: float = 0.85
 @export var world_scene_path: String = "res://scenes/world/World.tscn"
-@export var wild_paths: PackedStringArray = PackedStringArray([
-	"res://data/demons/wild_glitch.tres",
-	"res://data/demons/wild_spam.tres",
-])
+@export var wild_paths: PackedStringArray = PackedStringArray(
+	[
+		"res://data/demons/wild_glitch.tres",
+		"res://data/demons/wild_spam.tres",
+	]
+)
 
 var _player_count: int = 0
 var _timer: Timer

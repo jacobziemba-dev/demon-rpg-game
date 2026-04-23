@@ -7,7 +7,7 @@ signal grimoire_changed
 
 const STARTER_DEMON_PATH := "res://data/demons/starter_demon.tres"
 
-var party: Array = [] ## Array[Dictionary] — { "data": DemonData, "hp": int }
+var party: Array = []  ## Array[Dictionary] — { "data": DemonData, "hp": int }
 var grimoire: Array[DemonData] = []
 
 ## Index of the demon used in battle ([method get_active_demon]).
@@ -15,11 +15,10 @@ var active_party_index: int = 0
 
 var pending_wild: DemonData = null
 var return_world_path: String = "res://scenes/world/World.tscn"
+var encounter_blocked_until_ms: int = 0
 
 var _return_position: Vector2 = Vector2.ZERO
 var _consume_return_next: bool = false
-
-var encounter_blocked_until_ms: int = 0
 
 
 func _ready() -> void:
@@ -44,7 +43,10 @@ func _add_axis_action(action: String, keycode: Key) -> void:
 	ev.physical_keycode = keycode
 	var has := false
 	for existing in InputMap.action_get_events(action):
-		if existing is InputEventKey and (existing as InputEventKey).physical_keycode == ev.physical_keycode:
+		if (
+			existing is InputEventKey
+			and (existing as InputEventKey).physical_keycode == ev.physical_keycode
+		):
 			has = true
 			break
 	if not has:
@@ -111,8 +113,9 @@ func add_to_grimoire(d: DemonData) -> void:
 	if d == null:
 		return
 	grimoire.append(d)
-	grimoire.sort_custom(func(a: DemonData, b: DemonData) -> bool:
-		return a.display_name.to_lower() < b.display_name.to_lower()
+	grimoire.sort_custom(
+		func(a: DemonData, b: DemonData) -> bool:
+			return a.display_name.to_lower() < b.display_name.to_lower()
 	)
 	grimoire_changed.emit()
 

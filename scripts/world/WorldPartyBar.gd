@@ -17,7 +17,9 @@ func _refresh() -> void:
 		var d: DemonData = lead.get("data") as DemonData
 		if d:
 			demon_name = d.display_name
-	%LeadLabel.text = "Lead: %s  (%d/%d)" % [demon_name, GameState.active_party_index + 1, GameState.party.size()]
+	%LeadLabel.text = (
+		"Lead: %s  (%d/%d)" % [demon_name, GameState.active_party_index + 1, GameState.party.size()]
+	)
 	%BtnPrev.disabled = GameState.party.size() <= 1
 	%BtnNext.disabled = GameState.party.size() <= 1
 

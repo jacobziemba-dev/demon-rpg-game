@@ -1,0 +1,30 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  godot-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Godot 4.6 headless
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download 4.6-stable \
+            --repo godotengine/godot \
+            --pattern "*linux*x86_64*.zip"
+          ZIP=$(ls *linux*x86_64*.zip | head -1)
+          echo "Downloaded: $ZIP"
+          unzip -q "$ZIP"
+          GODOT_BIN=$(find . -maxdepth 1 -name "Godot_v*" -type f | head -1)
+          echo "Binary: $GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+      - name: Validate GDScript (headless)
+        run: |
+          "$GODOT_BIN" --headless --path . --quit 2>&1 | tee godot_output.txt
+          ! grep -qE "^ERROR:" godot_output.txt

@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gut:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check GUT addon is present
+        id: gut_check
+        run: |
+          if [ -f addons/gut/gut_cmdln.gd ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "GUT addon not installed — skipping tests."
+          fi
+      - name: Download Godot 4.6 headless
+        if: steps.gut_check.outputs.present == 'true'
+        run: |
+          GODOT_TAG="4.6-stable"
+          GODOT_BIN="Godot_v${GODOT_TAG}_linux.x86_64"
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_TAG}/${GODOT_BIN}.zip" \
+            -o godot.zip
+          unzip -q godot.zip
+          mv "${GODOT_BIN}" godot
+          chmod +x godot
+      - name: Run GUT tests
+        if: steps.gut_check.outputs.present == 'true'
+        run: |
+          ./godot --headless --path . \
+            -s addons/gut/gut_cmdln.gd \
+            -gdir=res://tests/ \
+            -glog=1 \
+            -gexit

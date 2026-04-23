@@ -12,11 +12,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download Godot 4.6 headless
         run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
-          unzip -q Godot_v4.6-stable_linux.x86_64.zip
-          mv Godot_v4.6-stable_linux.x86_64 godot
+          GODOT_TAG="4.6-stable"
+          GODOT_BIN="Godot_v${GODOT_TAG}_linux.x86_64"
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_TAG}/${GODOT_BIN}.zip" \
+            -o godot.zip
+          unzip -q godot.zip
+          mv "${GODOT_BIN}" godot
           chmod +x godot
-      - name: Import project (headless)
+      - name: Validate GDScript (headless)
         run: |
           ./godot --headless --path . --quit 2>&1 | tee godot_output.txt
           ! grep -qE "^ERROR:" godot_output.txt

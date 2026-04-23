@@ -4,11 +4,6 @@ extends Node2D
 
 const FLEE_SUCCESS_CHANCE: float = 0.68
 
-@onready var ui: Control = $CanvasLayer/UI
-@onready var player_sprite: Sprite2D = $ShakeRoot/PlayerSide/PlayerSprite
-@onready var enemy_sprite: Sprite2D = $ShakeRoot/EnemySide/EnemySprite
-@onready var shake_root: Node2D = $ShakeRoot
-
 var _player_data: DemonData
 var _wild_data: DemonData
 var _player_hp: int = 0
@@ -16,6 +11,11 @@ var _wild_hp: int = 0
 var _busy: bool = false
 var _temp_def_bonus: int = 0
 var _skill_used: bool = false
+
+@onready var ui: Control = $CanvasLayer/UI
+@onready var player_sprite: Sprite2D = $ShakeRoot/PlayerSide/PlayerSprite
+@onready var enemy_sprite: Sprite2D = $ShakeRoot/EnemySide/EnemySprite
+@onready var shake_root: Node2D = $ShakeRoot
 
 
 func _ready() -> void:
@@ -102,7 +102,12 @@ func _enemy_turn() -> void:
 	_shake()
 	ui.set_player_hp(_player_hp, _player_data.max_hp)
 	if atk_bonus > 0:
-		ui.append_log("Desperate strike! (%d damage) Your HP: %d / %d" % [dmg, _player_hp, _player_data.max_hp])
+		ui.append_log(
+			(
+				"Desperate strike! (%d damage) Your HP: %d / %d"
+				% [dmg, _player_hp, _player_data.max_hp]
+			)
+		)
 	else:
 		ui.append_log("You took %d. Your HP: %d / %d" % [dmg, _player_hp, _player_data.max_hp])
 

@@ -1,8 +1,7 @@
 extends Node
 
-## All gameplay navigation: [member MAIN_ENTRY] and world are separate from [res://scenes/battle/Battle.tscn].
-## Encounters set [member GameState.pending_wild] then [method change_scene_to] loads the battle scene
-## (Pokémon-style: overworld unloads, combat is its own screen).
+## All gameplay navigation. Battle and world are separate scenes (Pokémon-style).
+## Encounters set [member GameState.pending_wild] then transition to the battle screen.
 
 const MAIN_ENTRY := "res://scenes/Main.tscn"
 
@@ -23,7 +22,9 @@ func go_to_grimoire() -> void:
 	await SceneTransition.change_scene_to("res://scenes/ui/Grimoire.tscn", 0.18, 0.2)
 
 
-func begin_battle_from_world(player_global_pos: Vector2, world_scene_path: String, wild: DemonData) -> void:
+func begin_battle_from_world(
+	player_global_pos: Vector2, world_scene_path: String, wild: DemonData
+) -> void:
 	if wild == null:
 		push_warning("begin_battle_from_world: wild demon is null")
 		return

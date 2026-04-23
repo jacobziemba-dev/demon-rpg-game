@@ -5,6 +5,10 @@ signal defend_pressed
 signal skill_pressed
 signal flee_pressed
 
+var _p_data: DemonData
+var _w_data: DemonData
+var _skill_spent: bool = false
+
 @onready var player_bar: ProgressBar = %PlayerHPBar
 @onready var wild_bar: ProgressBar = %WildHPBar
 @onready var player_label: Label = %PlayerNameLabel
@@ -17,10 +21,6 @@ signal flee_pressed
 @onready var btn_skill: Button = %BtnSkill
 @onready var btn_flee: Button = %BtnFlee
 @onready var error_panel: PanelContainer = %ErrorPanel
-
-var _p_data: DemonData
-var _w_data: DemonData
-var _skill_spent: bool = false
 
 
 func _ready() -> void:
@@ -59,11 +59,15 @@ func set_skill_used() -> void:
 
 func _refresh_stat_lines(p_hp: int, w_hp: int) -> void:
 	if _p_data:
-		player_stat.text = "ATK %d · DEF %d · HP %d / %d" % [_p_data.attack, _p_data.defense, p_hp, _p_data.max_hp]
+		player_stat.text = (
+			"ATK %d · DEF %d · HP %d / %d" % [_p_data.attack, _p_data.defense, p_hp, _p_data.max_hp]
+		)
 	else:
 		player_stat.text = ""
 	if _w_data:
-		wild_stat.text = "ATK %d · DEF %d · HP %d / %d" % [_w_data.attack, _w_data.defense, w_hp, _w_data.max_hp]
+		wild_stat.text = (
+			"ATK %d · DEF %d · HP %d / %d" % [_w_data.attack, _w_data.defense, w_hp, _w_data.max_hp]
+		)
 	else:
 		wild_stat.text = ""
 
@@ -96,7 +100,7 @@ func show_no_demons_error() -> void:
 	_show_error("No demons in your Grimoire. Cannot battle.\nStart a new run from the main menu.")
 	set_buttons_enabled(false)
 	var t := get_tree().create_timer(2.0)
-	t.timeout.connect(func (): SceneRouter.go_to_main_menu())
+	t.timeout.connect(func(): SceneRouter.go_to_main_menu())
 
 
 func show_no_enemy_error() -> void:

@@ -1,0 +1,178 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbattle01"]
+
+[ext_resource type="Script" path="res://scripts/battle/BattleController.gd" id="1_battle_ctrl"]
+[ext_resource type="Script" path="res://scripts/battle/BattleUI.gd" id="2_battle_ui"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_battle_ctrl")
+
+[node name="ShakeRoot" type="Node2D" parent="."]
+
+[node name="PlayerSide" type="Node2D" parent="ShakeRoot"]
+position = Vector2(-150, 40)
+
+[node name="PlayerSprite" type="Sprite2D" parent="ShakeRoot/PlayerSide"]
+scale = Vector2(0.16, 0.16)
+
+[node name="EnemySide" type="Node2D" parent="ShakeRoot"]
+position = Vector2(150, 40)
+
+[node name="EnemySprite" type="Sprite2D" parent="ShakeRoot/EnemySide"]
+scale = Vector2(0.16, 0.16)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_battle_ui")
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/UI/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/UI/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/Panel/Margin/VBox"]
+layout_mode = 2
+text = "BATTLE — Glitched Link"
+horizontal_alignment = 1
+
+[node name="HBoxStats" type="HBoxContainer" parent="CanvasLayer/UI/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="PlayerCol" type="VBoxContainer" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerNameLabel" type="Label" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/PlayerCol"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Player"
+
+[node name="PlayerStatLine" type="Label" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/PlayerCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "ATK — · DEF —"
+
+[node name="PlayerHPBar" type="ProgressBar" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/PlayerCol"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="WildCol" type="VBoxContainer" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WildNameLabel" type="Label" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/WildCol"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Wild"
+horizontal_alignment = 2
+
+[node name="WildStatLine" type="Label" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/WildCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "ATK — · DEF —"
+horizontal_alignment = 2
+
+[node name="WildHPBar" type="ProgressBar" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxStats/WildCol"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="BattleLog" type="RichTextLabel" parent="CanvasLayer/UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = false
+scroll_active = true
+
+[node name="HBoxActions1" type="HBoxContainer" parent="CanvasLayer/UI/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="BtnAttack" type="Button" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxActions1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Attack"
+
+[node name="BtnDefend" type="Button" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxActions1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Defend"
+
+[node name="BtnSkill" type="Button" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxActions1"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Skill"
+
+[node name="HBoxActions2" type="HBoxContainer" parent="CanvasLayer/UI/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnFlee" type="Button" parent="CanvasLayer/UI/Panel/Margin/VBox/HBoxActions2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Flee"
+
+[node name="ErrorPanel" type="PanelContainer" parent="CanvasLayer/UI"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -60.0
+offset_right = 240.0
+offset_bottom = 60.0
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/UI/ErrorPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/UI/ErrorPanel/Margin"]
+layout_mode = 2
+
+[node name="ErrorLabel" type="Label" parent="CanvasLayer/UI/ErrorPanel/Margin/VBox"]
+layout_mode = 2
+text = "Error"
+autowrap_mode = 3
+horizontal_alignment = 1

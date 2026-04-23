@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/SkillData.gd" id="1_sk"]
+
+[resource]
+script = ExtResource("1_sk")
+id = "hex_slice"
+display_name = "Hex Slice"
+power_bonus = 2

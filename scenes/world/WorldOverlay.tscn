@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://coverlay01"]
+
+[ext_resource type="Script" path="res://scripts/world/WorldHUD.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/world/WorldPartyBar.gd" id="2_party"]
+
+[node name="WorldOverlay" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_hud")
+
+[node name="ToastTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PartyBar" type="PanelContainer" parent="."]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 420.0
+offset_bottom = 72.0
+script = ExtResource("2_party")
+
+[node name="Margin" type="MarginContainer" parent="PartyBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="PartyBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnPrev" type="Button" parent="PartyBar/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<"
+
+[node name="LeadLabel" type="Label" parent="PartyBar/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Summoner lead: —"
+
+[node name="BtnNext" type="Button" parent="PartyBar/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ">"
+
+[node name="LoreToast" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -120.0
+offset_right = 400.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1

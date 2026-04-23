@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="DemonData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/DemonData.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2_tex"]
+[ext_resource type="Resource" path="res://data/skills/hex_slice.tres" id="3_skill"]
+
+[resource]
+script = ExtResource("1_script")
+id = "starter"
+display_name = "Patchling"
+portrait = ExtResource("2_tex")
+max_hp = 14
+attack = 4
+defense = 1
+signature_skill = ExtResource("3_skill")

@@ -1,0 +1,145 @@
+[gd_scene load_steps=10 format=3 uid="uid://cworld001"]
+
+[ext_resource type="Script" path="res://scripts/world/World.gd" id="1_world"]
+[ext_resource type="PackedScene" uid="uid://cplayer01" path="res://scenes/world/Player.tscn" id="2_player"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="3_tex"]
+[ext_resource type="Script" path="res://scripts/world/EncounterZone.gd" id="4_enc"]
+[ext_resource type="Script" path="res://scripts/world/LandmarkLore.gd" id="5_landmark"]
+[ext_resource type="PackedScene" uid="uid://coverlay01" path="res://scenes/world/WorldOverlay.tscn" id="6_overlay"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_grass"]
+size = Vector2(360, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corrupt"]
+size = Vector2(280, 320)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_landmark"]
+radius = 28.0
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_world")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="DeepGrid" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.04, 0.04)
+
+[node name="GridFill" type="Polygon2D" parent="ParallaxBackground/DeepGrid"]
+color = Color(0.08, 0.1, 0.16, 1)
+polygon = PackedVector2Array(-800, -600, 2400, -600, 2400, 1400, -800, 1400)
+
+[node name="GlitchBand" type="Polygon2D" parent="ParallaxBackground/DeepGrid"]
+color = Color(0.35, 0.12, 0.45, 0.25)
+polygon = PackedVector2Array(200, 100, 1800, 80, 1900, 140, 100, 220)
+
+[node name="NearStatic" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.12, 0.12)
+
+[node name="DataHaze" type="Polygon2D" parent="ParallaxBackground/NearStatic"]
+color = Color(0.2, 0.55, 0.9, 0.08)
+polygon = PackedVector2Array(-400, 200, 1600, 50, 1700, 400, -200, 700)
+
+[node name="Floor" type="Polygon2D" parent="."]
+z_index = -5
+color = Color(0.12, 0.14, 0.18, 1)
+polygon = PackedVector2Array(-128, -128, 1536, -128, 1536, 896, -128, 896)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(220, 320)
+
+[node name="TotemA" type="Sprite2D" parent="."]
+position = Vector2(380, 280)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_tex")
+
+[node name="TotemB" type="Sprite2D" parent="."]
+position = Vector2(720, 520)
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("3_tex")
+
+[node name="TotemC" type="Sprite2D" parent="."]
+position = Vector2(1040, 260)
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("3_tex")
+
+[node name="LandmarkArchive" type="Area2D" parent="."]
+position = Vector2(140, 180)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_landmark")
+lore = "Archive sector 0xDEAD — demon signatures cached in static memory."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandmarkArchive"]
+shape = SubResource("CircleShape2D_landmark")
+
+[node name="LandmarkGate" type="Area2D" parent="."]
+position = Vector2(1180, 420)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_landmark")
+lore = "The gate hums. Whatever crossed here left broken collision meshes behind."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandmarkGate"]
+shape = SubResource("CircleShape2D_landmark")
+
+[node name="LandmarkNull" type="Area2D" parent="."]
+position = Vector2(640, 640)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_landmark")
+lore = "Null cathedral — pray the physics server does not notice you."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandmarkNull"]
+shape = SubResource("CircleShape2D_landmark")
+
+[node name="GlitchGrass" type="Area2D" parent="."]
+position = Vector2(520, 340)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("4_enc")
+zone_label = "GLITCH GRASS — wandering code"
+encounter_chance_per_tick = 0.16
+tick_interval = 1.05
+
+[node name="GrassVisual" type="Polygon2D" parent="GlitchGrass"]
+color = Color(0.15, 0.62, 0.38, 0.45)
+polygon = PackedVector2Array(-180, -110, 180, -110, 180, 110, -180, 110)
+
+[node name="HazardLabel" type="Label" parent="GlitchGrass"]
+offset_left = -120.0
+offset_top = -135.0
+offset_right = 140.0
+offset_bottom = -112.0
+text = "GLITCH GRASS"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GlitchGrass"]
+shape = SubResource("RectangleShape2D_grass")
+
+[node name="CorruptSector" type="Area2D" parent="."]
+position = Vector2(960, 420)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("4_enc")
+zone_label = "CORRUPTED SECTOR — high signal noise"
+encounter_chance_per_tick = 0.32
+tick_interval = 0.72
+
+[node name="CorruptVisual" type="Polygon2D" parent="CorruptSector"]
+color = Color(0.55, 0.2, 0.65, 0.42)
+polygon = PackedVector2Array(-140, -160, 140, -160, 140, 160, -140, 160)
+
+[node name="HazardLabel" type="Label" parent="CorruptSector"]
+offset_left = -130.0
+offset_top = -185.0
+offset_right = 150.0
+offset_bottom = -162.0
+text = "CORRUPTED SECTOR"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CorruptSector"]
+shape = SubResource("RectangleShape2D_corrupt")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(220, 320)
+
+[node name="WorldOverlay" parent="." instance=ExtResource("6_overlay")]
